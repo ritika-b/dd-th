@@ -17,7 +17,7 @@ The **Horizontal Pod Autoscaler (HPA)** is controlled by the Kubernetes controll
 - *Custom metrics*: these can be defined by the use for each HPA.
 - *Object metrics and external metrics*: these are based on a single metric taken from the object. This is compared to a target value to produce a utilization ratio.
 
-In this guide, you will set up `kube-ops-view` to visualize the autoscaling being performed on your EKS cluster and deploy an HPA. Finally, you will generate load using a sample app to trigger the HPA to adjust number of pods in your cluster. 
+In this guide, you will set up `kube-ops-view` to visualize the autoscaling being performed on your EKS cluster and deploy an HPA. Then, you will generate load using a sample app to trigger the HPA to adjust number of pods in your cluster. 
 
 ## Setting up `kube-ops-view`
 
@@ -65,7 +65,7 @@ Throughout the rest of this guide, refer to this visual to view the changes made
 
 ## Creating an HPA
 
-Before setting autoscaling into action, we must install Kubernetes Metrics Server. This is a service which provides container resource metrics which drive the autoscaling of your deployment. You can find more information on Metrics Server [here](https://github.com/kubernetes-sigs/metrics-server/).
+Before setting autoscaling into action, we must install Kubernetes Metrics Server. This is a service which provides container resource metrics that drive the autoscaling of your deployment. You can find more information on Metrics Server [here](https://github.com/kubernetes-sigs/metrics-server/).
 
 ```console
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -99,7 +99,7 @@ kubectl autoscale deployment sample-app \
     --max=5
 ```
 
-After creating the HPS resource, use the following command to view autoscaling metrics. *Note*: this process may take a few minutes to load. 
+After creating the HPA resource, use the following command to view autoscaling metrics. *Note*: this process may take a few minutes to load. 
 
 ```console
 kubectl get hpa
@@ -112,7 +112,7 @@ NAME         REFERENCE                     TARGET    MINPODS   MAXPODS   REPLICA
 sample-app   Deployment/sample-app/scale   0% / 60%  1         5         1          13s
 ```
 
-We have now created an HPA and can view autoscaling metrics. Now, we will generate load on our sample application to trigger autoscaling.
+We have now created an HPA and can view autoscaling metrics. We will generate load on our sample application to trigger autoscaling.
 
 Open a new terminal and run the following command. You will start a different pod which will act as a Client, constantly sending queries to http://sample-app Service.
 
@@ -140,16 +140,18 @@ NAME         REFERENCE                     TARGET      MINPODS   MAXPODS   REPLI
 sample-app   Deployment/sample-app/scale   165% / 60%  1         5         3          7m
 ```
 
-Once you've examined how autoscaling works terminate load generation by typing `<Ctrl> + C` in the terminal where you started load generation. After 1-3 minutes, verify that autoscaling resized the deployment using the following command:
+Once you've examined how autoscaling works, terminate load generation by typing `<Ctrl> + C` in the terminal where you started load generation. After 1-3 minutes, verify that autoscaling resized the deployment using the following command:
 
 ```console
 kubectl get hpa sample-app -w
 ```
+
+You should notice the HPA automatically scaled down the number of replicas to 1 once CPU utilization reduced to 0.
 
 ```console
 NAME         REFERENCE                     TARGET       MINPODS   MAXPODS   REPLICAS   AGE
 sample-app   Deployment/sample-app/scale   0% / 60%     1         10        1          11m
 ```
 
-You should notice the HPA automatically scaled down the number of replicas to 1 once CPU utilization reduced to 0. You have now successfully used horizontal pod autoscaling with a sample application.
+You have now successfully used horizontal pod autoscaling with a sample application.
 
