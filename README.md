@@ -1,4 +1,4 @@
-# Datadog Takehome Project
+# Takehome Project
 
 ## Topic
 
