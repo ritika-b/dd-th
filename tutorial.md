@@ -53,13 +53,19 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 
 The display should look similar to this: 
 
-![]()
+![kube-ops-view general](kube-ops-general.heic)
 
-Throughout the rest of this guide, refer to this view the changes made to the deployment by the HPA resource. 
+Hover over some of the components in the view to uncover more information about the cluster:
+
+![kube-ops-view container](kube-ops-pod.heic)
+
+![kube-ops-view cluster](kube-ops-cpu.heic)
+
+Throughout the rest of this guide, refer to this visual to view the changes made to the deployment by the HPA resource. 
 
 ## Creating an HPA
 
-Before setting autoscaling into action, we must install Kubernetes Metrics Server. This is a service which provides container resource metrics which drive the autoscaling of your deployment.
+Before setting autoscaling into action, we must install Kubernetes Metrics Server. This is a service which provides container resource metrics which drive the autoscaling of your deployment. You can find more information on Metrics Server [here](https://github.com/kubernetes-sigs/metrics-server/).
 
 ```console
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -71,7 +77,7 @@ To check if installation was successful, run the following command:
 kubectl get apiservice v1beta1.metrics.k8s.io -o json | jq '.status'
 ```
 
-The result should be of JSON format. If all checks are passed and no component is flagged, we can continue. 
+The result should be in JSON format. If all checks are passed and no component is flagged, we can continue. 
 
 ## Scale a sample application
 
