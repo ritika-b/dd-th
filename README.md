@@ -2,7 +2,7 @@
 
 ## Topic
 
-This tutorial covers autoscaling using Amazon Web Services Elastic Kubernetes System(AWS EKS); specifically, it will cover horizontal pod autoscaling (HPA) and using `kube-ops-view` as a tool to visualize Kubernetes clusters.
+This tutorial covers autoscaling using Amazon Web Services Elastic Kubernetes System (AWS EKS). Specifically, it will cover horizontal pod autoscaling (HPA) and using `kube-ops-view` as a tool to visualize Kubernetes clusters.
 
 ## Intended Audience
 
