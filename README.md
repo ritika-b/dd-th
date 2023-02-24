@@ -6,7 +6,7 @@ This tutorial covers autoscaling using Amazon Web Services Elastic Kubernetes Sy
 
 ## Intended Audience
 
-The appropriate audience for this guide would be experienced developers with basic Kubernetes and AWS service knowledge. The user should also have AWS Cloud Development Kit (CDK) knowdledge though they should be able to understand this tutorial without it. 
+The appropriate audience for this guide would be experienced developers with basic Kubernetes and AWS service knowledge. The user should also have AWS Cloud Development Kit (CDK) knowledge though they should be able to understand this tutorial without it. 
 
 ## Prerequisites
 
