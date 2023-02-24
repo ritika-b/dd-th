@@ -15,6 +15,6 @@ The user should take the following steps before proceeding with this guide:
 - Install `yq` for YAML processing
 - Install `kubectl` to interact with Kubernetes components
 - Install `awscli` to work with AWS in the console
-- Lunch EKS with a cluster successfully running on the service
-- Have `helm` installed
+- Install `helm` to work with Kubernetes tools
+- Launch EKS with a cluster successfully running on the service
 
