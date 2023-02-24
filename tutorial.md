@@ -9,23 +9,21 @@
 
 ## Overview
 
-Kubernetes clusters need to be scaled to handle fluctuating demand. Instead of doing this manually, you can create automated processes which save time, allow quick response during peak demand times, and conserve costs by scaling down when resources are not being used. One way to automate management is through horizontal pod autoscaling. 
+Kubernetes clusters must scale to handle fluctuating demand. Instead of doing this manually, you can create automated processes which save time, allow quick response during peak demand times, and conserve costs by scaling down when resources are not being used. One way to automate management is through horizontal pod autoscaling. 
 
-The **Horizontal Pod Autoscaler (HPA)** is controlled by the Kubernetes controller manager which assesses the use of resources repeatedly after a certain interval of time; The default value for this interval is 15 seconds and is denoted by the flag `--horizontal-pod-autoscaler-sync`. The autoscaler compares the metrics utilized by the workload to the metrics defined for each HPA to determining autoscaling. These resources include:
+The **Horizontal Pod Autoscaler (HPA)** is controlled by the Kubernetes controller manager which assesses the use of resources repeatedly after a certain interval of time; the default value for this interval is 15 seconds and is denoted by the flag `--horizontal-pod-autoscaler-sync`. The autoscaler compares the metrics utilized by the deployment to the metrics defined for each HPA to determine resizing. These resources include:
 
-- Resource metrics: these can be a target utilization value of a fixed target.
-- Custom metrics: these can be defined by the use for each HPA.
-- Object metrics and external metrics: these are based on a single metric taken from the object. This is compared to a target value to produce a utilization ratio.
+- *Resource metrics*: these can be a target utilization value of a fixed target.
+- *Custom metrics*: these can be defined by the use for each HPA.
+- *Object metrics and external metrics*: these are based on a single metric taken from the object. This is compared to a target value to produce a utilization ratio.
 
 In this guide, you will set up `kube-ops-view` to visualize the autoscaling being performed on your EKS cluster and deploy an HPA. Finally, you will generate load using a sample app to trigger the HPA to adjust number of pods in your cluster. 
 
 ## Setting up `kube-ops-view`
 
-> 📘
-> 
 > To complete this step, you should have [`Helm`](https://helm.sh/) installed. 
 
-The following code installs `kube-ops-view`. This installationg uses a LoadBalancer service to install kube-ops-view and creates a resource based access control (RBAC) entry to read information on the cluster. 
+The following code installs `kube-ops-view`. This installation uses a LoadBalancer service to install kube-ops-view and creates a resource based access control (RBAC) entry to read information on the cluster. 
 
 ```console
 helm install kube-ops-view \
@@ -43,6 +41,8 @@ helm list
 The result should be similar to this:
 
 ```console
+NAME            REVISION        UPDATED                         STATUS          CHART                   APP VERSION     NAMESPACE
+kube-ops-view   1               Web Feb 22 09:13:27 2023        DEPLOYED        kube-ops-view-23.2.0    4.3             default  
 ```
 
 Now that kube-ops-view is installed, let's visualize our cluster. The following code generates a URL. Open the URL to view a visual representation of your EKS cluster.
@@ -53,10 +53,13 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 
 The display should look similar to this: 
 
+![]()
+
+Throughout the rest of this guide, refer to this view the changes made to the deployment by the HPA resource. 
 
 ## Creating an HPA
 
-Before setting autoscaling into action, we must install Kubernetes Metrics Server. This is a service which provides container resource metrics which drive the autoscaling of your workload.
+Before setting autoscaling into action, we must install Kubernetes Metrics Server. This is a service which provides container resource metrics which drive the autoscaling of your deployment.
 
 ```console
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -98,7 +101,7 @@ kubectl get hpa
 
 Your output should look similar to this:
 
-``console
+```console
 NAME         REFERENCE                     TARGET    MINPODS   MAXPODS   REPLICAS   AGE
 sample-app   Deployment/sample-app/scale   0% / 60%  1         5         1          13s
 ```
@@ -139,7 +142,8 @@ kubectl get hpa sample-app -w
 
 ```console
 NAME         REFERENCE                     TARGET       MINPODS   MAXPODS   REPLICAS   AGE
-php-apache   Deployment/php-apache/scale   0% / 60%     1         10        1          11m
+sample-app   Deployment/sample-app/scale   0% / 60%     1         10        1          11m
 ```
 
-You should notice the HPA automatically scaled down the number of replicas to 1 once CPU utilization reduced to 0.
+You should notice the HPA automatically scaled down the number of replicas to 1 once CPU utilization reduced to 0. You have now successfully used horizontal pod autoscaling with a sample application.
+
