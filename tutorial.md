@@ -17,7 +17,7 @@ The **Horizontal Pod Autoscaler (HPA)** is controlled by the Kubernetes controll
 - *Custom metrics*: these can be defined by the use for each HPA.
 - *Object metrics and external metrics*: these are based on a single metric taken from the object. This is compared to a target value to produce a utilization ratio.
 
-In this guide, you will set up `kube-ops-view` to visualize the autoscaling being performed on your EKS cluster and deploy an HPA. Then, you will generate load using a sample app to trigger the HPA to adjust number of pods in your cluster. 
+In this guide, you will set up `kube-ops-view` to visualize the autoscaling being performed on your EKS cluster and deploy an HPA. Then, you will generate load using a sample app to trigger the HPA to adjust number of pods in your cluster. To successfully complete this guide, you should have a running EKS cluster. For more information on creating an EKS cluster, click [here](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html).
 
 ## Setting up `kube-ops-view`
 
