@@ -53,13 +53,13 @@ kubectl get svc kube-ops-view | tail -n 1 | awk '{ print "Kube-ops-view URL = ht
 
 The display should look similar to this: 
 
-![kube-ops-view general](kube-ops-general.heic)
+![kube-ops-view general](kube-ops-general.png)
 
 Hover over some of the components in the view to uncover more information about the cluster:
 
-![kube-ops-view container](kube-ops-pod.heic)
+![kube-ops-view container](kube-ops-pod.png)
 
-![kube-ops-view cluster](kube-ops-cpu.heic)
+![kube-ops-view cluster](kube-ops-cpu.png)
 
 Throughout the rest of this guide, refer to this visual to view the changes made to the deployment by the HPA resource. 
 
